@@ -18,6 +18,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
+<!--
+Service는 외부에 오픈 가능, 예를 들어 사진 공유 기능을 원할 경우 사진첩에 접근하여 서비스를 활용할 수 있다. 여기서는 이런 기능을 막아준다.
+exported = false 외부 오픈 금지
+
+intent-filter : 앱에서 필터에 해당하는 이벤트 인텐트를 수신하겠다.
+-->
