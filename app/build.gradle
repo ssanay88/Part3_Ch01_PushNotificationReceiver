@@ -46,8 +46,11 @@ dependencies {
     // firebase 설정을 위한 추가
     // bom : firebase 관련 많은 의존성 추가가 필요하다. 하나씩 호환성을 체크하며 추가하기 힘들기때문에 아래에서 각각 버전을 저장시켜두고 필요한
     // 의존을 추가할 때 편리하게 적용시켜 준다.
+    // BoM(Bill of Materials) : Bom버전 하나만 지정하여 모든 Firebase 라이브러리 버전을 관리할 수 있다.
     implementation platform('com.google.firebase:firebase-bom:29.0.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    // analytics : 앱 사용 및 사용자 참여도 통계를 제공하는 무료 앱 측정 솔루션
+    // 사용자의 행동을 명확히 이해하면 앱 마케팅 및 실정 극대화와 관련하여 합리적인 결정을 내리는 데 도움이 된다.
 
     // Cloud Messaging 관련 의존성 추가
     implementation 'com.google.firebase:firebase-messaging-ktx'

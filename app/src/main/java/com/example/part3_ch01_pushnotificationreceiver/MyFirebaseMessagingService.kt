@@ -42,7 +42,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         // Notification 실행
         NotificationManagerCompat.from(this)
-            .notify(type.id , createNotification(type,title,message))
+            .notify(type.id , createNotification(type,title,message))    // 상태창에 notification 알림 , notification ID 와 notification을 생성하여 실행
 
     }
 
@@ -50,19 +50,20 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private fun createNotificationChannel() {
         // 안드로이드 버전 8.0(오레오) 이상일 경우 채널을 생성해줘야 한다. 미만일 경우 채널 따로 필요하지 않다.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // 채널 생성 , NotificationChannel( 채널 ID , 채널 이름 , 중요도 )
             val channel = NotificationChannel(CANNEL_ID , CHANNEL_NAME , NotificationManager.IMPORTANCE_DEFAULT)
             channel.description = CHANNEL_DESCRIPTION
 
             (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
-                .createNotificationChannel(channel)
+                .createNotificationChannel(channel)    // 만들어둔 채널로 Notification 채널 생성
         }
     }
 
-    // type에 따른 다른 종류의 Notification 생성 함수
+    // type에 따른 다른 종류의 Notification 생성 함수 , Notification 반환
     private fun createNotification(type: NotificationType , title:String? , message:String?):Notification {
 
         val intent = Intent(this,MainActivity::class.java).apply {
-            putExtra("notificationType","${type.title} 타입")
+            putExtra("notificationType","${type.title} 타입")    // notification에 인탠트를 저장하고 타입을 저장
             addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             // FALG_ACTIVITY_STANDARD의 경우 같은 액티비티여도 한번 더 쌓이지만 , SINGLE_TOP을 했을 경우 같은 B라는 액티비티에서 인텐트를 적용해도
             // 갱신된 액티비티로 바뀐다.
@@ -76,11 +77,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         // 기본 설정된 알림
         val notificationBuilder = NotificationCompat.Builder(this, CANNEL_ID)
-            .setSmallIcon(R.drawable.ic_baseline_circle_notifications_24)
-            .setContentTitle(title)
-            .setContentText(message)
+            .setSmallIcon(R.drawable.ic_baseline_circle_notifications_24)    // 아이콘 설정
+            .setContentTitle(title)    // FCM을 통해 받은 메세지 타이틀을 지정
+            .setContentText(message)    // FCM을 통해 받은 메세지 내용을 설정
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)    // 8.0 미만의 버전에서는 Priority를 지정해줘야 한다.
-            .setContentIntent(pendingIntent)    // 펜딩 인텐트 연결
+            .setContentIntent(pendingIntent)    // 펜딩 인텐트 연결 , 특정 행동시 인텐트를 실행하도록 설정하는 것
             .setAutoCancel(true)    // Notification 클릭 시 알림 삭제
 
 
@@ -98,7 +99,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             }
 
             // 커스텀 알림림
-            // 잘 안쓰는걸 천하지만 위에 두 타입으로 표현할 수 없는 경우 사용
+            // 잘 안쓰는걸 추천하지만 위에 두 타입으로 표현할 수 없는 경우 사용
             NotificationType.CUSTOM -> {
                 notificationBuilder.setStyle(NotificationCompat.DecoratedCustomViewStyle())
                     .setCustomContentView(RemoteViews(packageName,R.layout.view_custom_notification).apply {
@@ -108,7 +109,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             }
         }
 
-        return notificationBuilder.build()
+        return notificationBuilder.build()    // 모든 설정이 끝난 후 build로 Notification 생성 후 반환
 
     }
 
@@ -116,7 +117,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         private const val CHANNEL_NAME = "Emoji Party"  // 채널 이름
         private const val CHANNEL_DESCRIPTION = "Emoji Party를 위한 채널"    // 채널 설명
         private const val CANNEL_ID = "Channel ID"
-
 
     }
 

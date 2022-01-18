@@ -3,12 +3,13 @@ package com.example.part3_ch01_pushnotificationreceiver
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.part3_ch01_pushnotificationreceiver.databinding.ActivityMainBinding
 import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var mainBinding: ActivityMainBinding
+    private lateinit var mainBinding: ActivityMainBinding    // 뷰 바인딩을 위한 선언
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +31,13 @@ class MainActivity : AppCompatActivity() {
         updateResult(true)
     }
 
+    // message를 보내기 위한 토큰을 받아오는 함수
     private fun initFirebase() {
         // firebaseMessage의 토큰을 가져온다.
-        // 토큰은 Message를 보낼때 식별자 역할을 해준다.
+        // 토큰은 Message를 보낼때 현재 앱에 대한 식별자 역할을 해준다.
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if(task.isSuccessful) {
+                Log.d("main","토큰 받아 오기 성공")
                 mainBinding.firebaseTokenTextView.text = task.result
             }
         }
